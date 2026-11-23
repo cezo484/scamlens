@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ScamLens: is this message a scam?</title>
+<link rel="stylesheet" href="styles.css">
+<script type="importmap">
+{
+  "imports": {
+    "firebase/app": "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js",
+    "firebase/ai": "https://www.gstatic.com/firebasejs/12.5.0/firebase-ai.js",
+    "firebase/app-check": "https://www.gstatic.com/firebasejs/12.5.0/firebase-app-check.js"
+  }
+}
+</script>
+</head>
+<body>
+<main>
+  <header>
+    <h1>ScamLens</h1>
+    <p>Paste a suspicious message: a crypto DM, a phishing text, a too-good offer. ScamLens screens it and tells you, in plain language, whether it is a scam.</p>
+    <p class="privacy-note">Screening runs on your device first, so the message never has to leave it. The cloud only sees your message if you tap "Explain in detail".</p>
+  </header>
+
+  <section id="status" aria-label="Path status">
+    <div class="status-row">
+      <span class="status-label">On-device model</span>
+      <span id="device-status" class="badge">Checking...</span>
+      <button id="prepare-button" type="button" hidden>Prepare on-device model</button>
+    </div>
+    <div id="download-row" class="status-row" hidden>
+      <span class="status-label">Model download</span>
+      <progress id="download-progress" max="1" value="0"></progress>
+      <span id="download-text"></span>
+    </div>
+    <div class="status-row">
+      <span class="status-label">Cloud (Firebase AI Logic)</span>
+      <span id="cloud-status" class="badge">Checking...</span>
+    </div>
+  </section>
+
+  <section aria-label="Screen a message">
+    <label for="message">Suspicious message</label>
+    <textarea id="message" rows="5" placeholder="Paste the message here. For example: a DM from &quot;support&quot; asking for your seed phrase."></textarea>
+    <div class="sample-row">
+      <span>Try a sample:</span>
+      <button type="button" data-sample="0">Fake support DM</button>
+      <button type="button" data-sample="1">Fake airdrop</button>
+      <button type="button" data-sample="2">Investment pitch</button>
+      <button type="button" data-sample="3">Vague security alert</button>
+      <button type="button" data-sample="4">Ordinary message</button>
+    </div>
+    <button id="screen-button" type="button">Screen this message</button>
+    <p id="error" class="error" hidden></p>
+  </section>
+
+  <section id="result-section" aria-label="Screening result" hidden>
+    <div class="result-head">
+      <h2>Result</h2>
+      <span id="path-badge" class="badge"></span>
+    </div>
+    <p id="path-note" class="path-note"></p>
+    <p id="attempt-log" class="attempt-log" hidden></p>
+    <div class="verdict-row">
+      <span id="verdict-badge" class="verdict"></span>
+      <span id="risk-text" class="risk-text"></span>
+    </div>
+    <div class="risk-meter" aria-hidden="true"><div id="risk-fill"></div></div>
+    <p id="scam-type" class="scam-type"></p>
+    <p id="summary"></p>
+    <h3>Red flags</h3>
+    <ul id="red-flags"></ul>
+    <div id="links-block" hidden>
+      <h3>Links in this message</h3>
+      <ul id="link-list"></ul>
+    </div>
+    <div class="result-actions">
+      <button id="explain-button" type="button">Explain in detail</button>
+      <button id="copy-button" type="button">Copy result</button>
+      <span id="copy-status" aria-live="polite"></span>
+    </div>
+    <p id="explain-note" class="path-note">The explanation runs in the cloud only if you tap the button. Without a Firebase config, the explanation comes from the on-page checks instead.</p>
+    <div id="explanation-block" hidden>
+      <h3>Explanation <span id="explain-badge" class="badge"></span></h3>
+      <p id="explanation-text"></p>
+    </div>
+  </section>
+
+  <section id="history-section" aria-label="Recent screenings" hidden>
+    <h2>Recent screenings</h2>
+    <p class="path-note">Stored only in this browser. Only a short snippet of each message is kept, never the full text.</p>
+    <ul id="history-list"></ul>
+    <button id="clear-history-button" type="button">Clear history</button>
+  </section>
+
+  <section aria-label="How it works">
+    <h2>How it works</h2>
+    <p>Every screening goes through one of three paths. The badge on each result says which one was used.</p>
+    <ol>
+      <li><strong>Hybrid (Firebase AI Logic).</strong> With a Firebase project configured, screening goes through the Firebase AI Logic hybrid SDK in PREFER_ON_DEVICE mode: Gemini Nano screens the message on-device when available, and the SDK falls back to a cloud Gemini model when it is not. The response reports which one actually ran, and the badge shows it.</li>
+      <li><strong>On-device (direct).</strong> Without a Firebase config, Chrome's Prompt API runs Gemini Nano in the browser. The message stays on the device and the screening costs nothing. Needs Chrome on desktop, version 139 or newer, with the on-device model downloaded.</li>
+      <li><strong>Local.</strong> When no model path is available, on-page rules screen the message: known scam patterns plus a link inspector that checks every URL for lookalike domains, punycode, shorteners and other tricks. The demo always works, even with no setup at all.</li>
+    </ol>
+    <p>The deep explanation is a separate step with its own path: a cloud Gemini model through Firebase AI Logic (ONLY_IN_CLOUD), and only when you tap the button. Without a Firebase config, the explanation is built from the on-page checks instead.</p>
+    <p>If a path fails, the next one is tried automatically. The attempt log under the badge records what happened.</p>
+  </section>
+</main>
+<script type="module" src="app.js"></script>
+</body>
+</html>

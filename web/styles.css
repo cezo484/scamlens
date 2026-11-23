@@ -1,0 +1,283 @@
+/* ScamLens styles. Plain, readable, no framework. */
+
+[hidden] {
+  display: none !important;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.5;
+  color: #1c2430;
+  background: #f6f7f9;
+}
+
+main {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px 16px 64px;
+}
+
+h1 {
+  font-size: 2rem;
+  margin: 0 0 8px;
+}
+
+h2 {
+  font-size: 1.25rem;
+  margin: 0 0 8px;
+}
+
+h3 {
+  font-size: 1rem;
+  margin: 20px 0 6px;
+}
+
+header p {
+  margin: 0 0 8px;
+  color: #3d4757;
+}
+
+.privacy-note {
+  font-size: 0.95rem;
+  border-left: 3px solid #2f7d4f;
+  padding-left: 10px;
+}
+
+section {
+  background: #fff;
+  border: 1px solid #e2e5ea;
+  border-radius: 10px;
+  padding: 16px;
+  margin-top: 16px;
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+textarea {
+  width: 100%;
+  font: inherit;
+  padding: 10px;
+  border: 1px solid #c6ccd6;
+  border-radius: 8px;
+  resize: vertical;
+}
+
+textarea:focus,
+button:focus {
+  outline: 2px solid #2f6fed;
+  outline-offset: 2px;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+  border: 1px solid #c6ccd6;
+  background: #fff;
+  color: #1c2430;
+  border-radius: 8px;
+  padding: 8px 14px;
+}
+
+button:hover:not(:disabled) {
+  background: #eef1f5;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+#screen-button,
+#explain-button {
+  background: #1c2430;
+  color: #fff;
+  border-color: #1c2430;
+  margin-top: 10px;
+}
+
+#screen-button:hover:not(:disabled),
+#explain-button:hover:not(:disabled) {
+  background: #333d4d;
+}
+
+.sample-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-top: 10px;
+  font-size: 0.9rem;
+}
+
+.sample-row button {
+  padding: 4px 10px;
+  font-size: 0.9rem;
+}
+
+.status-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  padding: 4px 0;
+}
+
+.status-label {
+  font-weight: 600;
+  min-width: 190px;
+}
+
+.badge {
+  font-size: 0.85rem;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: #eef1f5;
+  color: #3d4757;
+  border: 1px solid #dfe3e9;
+}
+
+.badge[data-tone="good"] {
+  background: #e6f4ea;
+  color: #1e6b34;
+  border-color: #b9dfc4;
+}
+
+.badge[data-tone="warn"] {
+  background: #fef7e0;
+  color: #7a5b00;
+  border-color: #f2dfa0;
+}
+
+.badge[data-tone="bad"] {
+  background: #fce8e6;
+  color: #a50e0e;
+  border-color: #f5b3ae;
+}
+
+.error {
+  color: #a50e0e;
+  font-weight: 600;
+}
+
+.path-note {
+  color: #5f6b7a;
+  font-size: 0.9rem;
+  margin: 4px 0 8px;
+}
+
+.attempt-log {
+  color: #7a5b00;
+  font-size: 0.85rem;
+  background: #fef7e0;
+  border-radius: 6px;
+  padding: 6px 10px;
+}
+
+.result-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.verdict-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin: 12px 0 6px;
+}
+
+.verdict {
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  padding: 4px 14px;
+  border-radius: 8px;
+}
+
+.verdict[data-tone="scam"] {
+  background: #fce8e6;
+  color: #a50e0e;
+}
+
+.verdict[data-tone="suspicious"] {
+  background: #fef7e0;
+  color: #7a5b00;
+}
+
+.verdict[data-tone="safe"] {
+  background: #e6f4ea;
+  color: #1e6b34;
+}
+
+.verdict-mini {
+  font-size: 0.75rem;
+  padding: 1px 8px;
+}
+
+.risk-text {
+  font-weight: 600;
+}
+
+.risk-meter {
+  height: 10px;
+  background: #eef1f5;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+#risk-fill {
+  height: 100%;
+  width: 0;
+  border-radius: 999px;
+  background: #2f7d4f;
+}
+
+#risk-fill[data-tone="suspicious"] {
+  background: #e0a800;
+}
+
+#risk-fill[data-tone="scam"] {
+  background: #c5221f;
+}
+
+.scam-type {
+  font-weight: 600;
+  margin: 10px 0 4px;
+}
+
+ul {
+  padding-left: 20px;
+  margin: 6px 0;
+}
+
+li {
+  margin-bottom: 4px;
+}
+
+.result-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin-top: 14px;
+}
+
+#explanation-text {
+  white-space: pre-line;
+}
+
+#history-list li {
+  margin-bottom: 8px;
+}

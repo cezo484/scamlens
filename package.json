@@ -1,0 +1,1 @@
+{"description":"Scam message screener: on-device AI verdict first, cloud AI explanation on request, local heuristics fallback. Built with Firebase AI Logic hybrid inference.","license":"MIT","name":"scamlens","scripts":{"demo":"node src/demo.js","start":"node serve.js","test":"node --test test/*.test.js","web":"node serve.js"},"type":"module","version":"1.0.0"}
